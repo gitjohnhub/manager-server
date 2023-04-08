@@ -26,7 +26,7 @@ app.use(views(__dirname + '/views', {
 app.use(async (ctx, next) => {
     // const start = new Date()
   await next()
-  log4js.info("log output");
+  // log4js.info("log output");
 
 })
 

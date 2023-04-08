@@ -15,6 +15,7 @@ const CODE = {
 
 module.exports = {
   /**
+   * 分页结构封装
    * @param {number} pageNum
    * @param {number} pageSize
    */
