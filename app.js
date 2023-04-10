@@ -13,18 +13,17 @@ onerror(app)
 
 require('./config/db')
 
-router.prefix("/api")
 // middlewares
-// app.use(bodyparser({
-//   enableTypes:['json', 'form', 'text']
-// }))
-// app.use(json())
+app.use(bodyparser({
+  enableTypes:['json', 'form', 'text']
+}))
+app.use(json())
 // app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
-// app.use(views(__dirname + '/views', {
-//   extension: 'pug'
-// }))
+app.use(views(__dirname + '/views', {
+  extension: 'pug'
+}))
 
 // logger
 app.use(async (ctx, next) => {
@@ -33,6 +32,8 @@ app.use(async (ctx, next) => {
   // log4js.info("log output");
 
 })
+router.prefix("/api")
+
 
 router.use(users.routes(),users.allowedMethods())
 app.use(router.routes(),users.allowedMethods())

@@ -8,12 +8,16 @@ const log4js = require('./../utils/log4j')
 router.prefix('/users')
 router.post('/login',async (ctx)=>{
   log4js.info('login visit')
+  log4js.info( ctx)
   try {
     const {userName,userPwd} = ctx.request.body;
+    log4js.info(userName)
     const res = await User.findOne({
       userName,
       userPwd
     })
+    log4js.info(res)
+
     if (res){
       log4js.info(res)
       ctx.body = util.success(res)
