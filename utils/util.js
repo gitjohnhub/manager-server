@@ -31,15 +31,12 @@ module.exports = {
       skipIndex
     }
   },
-  success(data='',msg='',code=CODE.success){
-    log4js.debug(data)
+  success(data='',msg='',code=CODE.SUCCESS){
     return {
       code,data,msg
     }
   },
   fail(msg='',code=CODE.USER_ACCOUNT_ERROR,data=''){
-    // log4js.debug(msg)
-
     return {
       code,data,msg
     }
