@@ -5,6 +5,7 @@ const router = require('koa-router')()
 const User = require('./../models/userSchema')
 const util = require('./../utils/util')
 const log4js = require('./../utils/log4j')
+const jwt = require('jsonwebtoken');
 router.prefix('/users')
 router.post('/login',async (ctx)=>{
   try {
@@ -13,8 +14,12 @@ router.post('/login',async (ctx)=>{
       userName,
       userPwd
     })
+    const data = res._doc
+
+    const token = jwt.sign({data:data}, 'zwzx',{expiresIn:60 *60});
     if (res){
-      ctx.body = util.success(res)
+      data.token = token
+      ctx.body = util.success(data)
     }else{
       ctx.body = util.fail("帐号或密码不正确")
     }
