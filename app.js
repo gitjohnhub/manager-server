@@ -8,6 +8,9 @@ const bodyparser = require('koa-bodyparser')
 const log4js = require('./utils/log4j')
 const users = require('./routes/users')
 const router =  require('koa-router')()
+const jwt = require('jsonwebtoken');
+const koa_jwt = require('koa-jwt')
+
 // error handler
 onerror(app)
 
@@ -19,6 +22,22 @@ app.use(bodyparser({
 }))
 app.use(json())
 // app.use(logger())
+app.use(async (ctx, next)=>{
+	log4js.info(`get params:${JSON.stringify(ctx.request.query)}`)
+		log4js.info(`get params:${JSON.stringify(ctx.request.body)}`)
+		await next().catch((err)=>{
+		if(err.status == '401'){
+		ctx.status = 200
+		ctx.body = util.fail('Token认证失败',util.CODE.AUTH_ERROR)
+		}else{
+		throw err
+		}
+		})
+
+})
+app.use(koa_jwt({secret:'zwzx'}).unless({
+	path:[/^\/api\/users\/login/]
+}))
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
@@ -33,6 +52,11 @@ app.use(async (ctx, next) => {
 
 })
 router.prefix("/api")
+// router.get('/leave/count',ctx=>{
+//   const token = ctx.request.header.authorization.split(' ')[1]
+//   const payload =  jwt.verify(token,'zwzx')
+//   ctx.body = payload
+// })
 
 
 router.use(users.routes(),users.allowedMethods())
