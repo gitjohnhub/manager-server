@@ -10,7 +10,7 @@ const users = require('./routes/users')
 const router =  require('koa-router')()
 const jwt = require('jsonwebtoken');
 const koa_jwt = require('koa-jwt')
-
+const util = require('./utils/util')
 // error handler
 onerror(app)
 
@@ -22,9 +22,10 @@ app.use(bodyparser({
 }))
 app.use(json())
 // app.use(logger())
+
 app.use(async (ctx, next)=>{
-	log4js.info(`get params:${JSON.stringify(ctx.request.query)}`)
-		log4js.info(`get params:${JSON.stringify(ctx.request.body)}`)
+	// log4js.info(`get params:${JSON.stringify(ctx.request.query)}`)
+	// log4js.info(ctx)
 		await next().catch((err)=>{
 		if(err.status == '401'){
 		ctx.status = 200
@@ -38,6 +39,7 @@ app.use(async (ctx, next)=>{
 app.use(koa_jwt({secret:'zwzx'}).unless({
 	path:[/^\/api\/users\/login/]
 }))
+
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
