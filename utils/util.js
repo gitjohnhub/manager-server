@@ -36,7 +36,7 @@ module.exports = {
       code,data,msg
     }
   },
-  fail(msg='',code=CODE.USER_ACCOUNT_ERROR,data=''){
+  fail(msg='',code=CODE.USER_ACCOUNT_ERROR,data=""){
     return {
       code,data,msg
     }
