@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const lostFoundSchema = mongoose.Schema({
   "pickUpDate":{
     type:Date,
-    default:Date.now()
+    // default:Date.now()
   },
   "itemType":String,
   "withName":String,
@@ -19,9 +19,10 @@ const lostFoundSchema = mongoose.Schema({
   "note":String,
   "createTime":{
     type:Date,
-    default:Date.now()
   },
-  remark:String
+  "recorder":String,
+  "confirmer":String
+
 })
 
 module.exports = mongoose.model("lostFound",lostFoundSchema,"lostFound")

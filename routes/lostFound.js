@@ -11,11 +11,41 @@ router.get('/all',async (ctx)=>{
   log4js.info('get lostFound success')
   try {
     const res = await lostFound.find()
-    log4js.info(res)
     ctx.body = util.success(data = res)
   }catch(err){
     log4js.info(err)
   }
 })
-
+router.post('/add',async (ctx)=>{
+  log4js.info('add lostFound success')
+  try {
+    log4js.info(ctx.request.body)
+    const lostFoundItem = await new lostFound(ctx.request.body);
+    await lostFoundItem.save().then(res=>{
+      console.log(lostFoundItem.IdNum);
+    }).catch(err=>{
+      log4js.info(err)
+    })
+    ctx.body = util.success(data = lostFoundItem.IdNum)
+  }catch(err){
+    log4js.info(err)
+  }
+})
+router.post('/confirmLostFound',async (ctx)=>{
+  log4js.info('confirm lostFound success')
+  log4js.info(ctx.request.body)
+  const {_id,confirmer} = ctx.request.body
+  try {
+    log4js.info(ctx.request.body)
+    const lostFoundItem = await lostFound.findOneAndUpdate({_id:_id},{confirmer:confirmer});
+    await lostFoundItem.save().then(res=>{
+      console.log(lostFoundItem.confirmer);
+    }).catch(err=>{
+      log4js.info(err)
+    })
+    ctx.body = util.success(data = lostFoundItem.confirmer)
+  }catch(err){
+    log4js.info(err)
+  }
+})
 module.exports = router
