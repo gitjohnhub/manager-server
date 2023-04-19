@@ -37,7 +37,7 @@ router.post('/confirmLostFound',async (ctx)=>{
   const {_id,confirmer} = ctx.request.body
   try {
     log4js.info(ctx.request.body)
-    const lostFoundItem = await lostFound.findOneAndUpdate({_id:_id},{confirmer:confirmer});
+    const lostFoundItem = await lostFound.findOneAndUpdate({_id:_id},{confirmer:confirmer}).findOneAndUpdate({_id:_id},{hasDraw:1});
     await lostFoundItem.save().then(res=>{
       console.log(lostFoundItem.confirmer);
     }).catch(err=>{

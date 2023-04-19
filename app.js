@@ -9,7 +9,7 @@ const log4js = require('./utils/log4j');
 // 路由导入
 const users = require('./routes/users');
 const lostFound = require('./routes/lostFound');
-const leave = require('./routes/leave');
+const leaveOfAbsence = require('./routes/leaveOfAbsence');
 
 
 const router = require('koa-router')();
@@ -65,7 +65,7 @@ app.use(async (ctx, next) => {
 router.prefix('/api');
 router.use(users.routes(), users.allowedMethods());
 router.use(lostFound.routes(), users.allowedMethods());
-router.use(leave.routes(), users.allowedMethods());
+router.use(leaveOfAbsence.routes(), users.allowedMethods());
 app.use(router.routes(), users.allowedMethods());
 // error-handling
 
