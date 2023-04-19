@@ -21,7 +21,7 @@ router.post('/login',async (ctx)=>{
     console.log(res)
     const data = res._doc
     log4js.info("res=>",data)
-    const token = jwt.sign({data:data}, 'zwzx',{expiresIn:30});
+    const token = jwt.sign({data:data}, 'zwzx',{expiresIn:60*60});
     if (res){
       data.token = token
       ctx.body = util.success(data)

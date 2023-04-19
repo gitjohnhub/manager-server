@@ -6,8 +6,12 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 // const logger = require('koa-logger')
 const log4js = require('./utils/log4j');
+// 路由导入
 const users = require('./routes/users');
+const lostFound = require('./routes/lostFound');
 const leave = require('./routes/leave');
+
+
 const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
 const koa_jwt = require('koa-jwt');
@@ -29,7 +33,7 @@ app.use(async (ctx, next) => {
   await next().catch((err) => {
     if (err.status == '401') {
       ctx.status = 200;
-      ctx.body = util.fail('Token认证失败', util.CODE.AUTH_ERROR);
+      ctx.body = util.fail('Token认证失败,请重新登录', util.CODE.AUTH_ERROR);
     } else {
       throw err;
     }
@@ -37,11 +41,12 @@ app.use(async (ctx, next) => {
 });
 
 // 请求认证
-app.use(
-  koa_jwt({ secret: 'zwzx' }).unless({
-    path: [/^\/api\/users\/login/],
-  })
-);
+
+// app.use(
+//   koa_jwt({ secret: 'zwzx' }).unless({
+//     path: [/^\/api\/users\/login/],
+//   })
+// );
 
 app.use(require('koa-static')(__dirname + '/public'));
 
@@ -59,6 +64,7 @@ app.use(async (ctx, next) => {
 });
 router.prefix('/api');
 router.use(users.routes(), users.allowedMethods());
+router.use(lostFound.routes(), users.allowedMethods());
 router.use(leave.routes(), users.allowedMethods());
 app.use(router.routes(), users.allowedMethods());
 // error-handling

@@ -17,7 +17,8 @@ router.get('/count', async (ctx) => {
   // }
   // log4js.info('get /leave/count=>');
   // ctx.body = util.success(1)
-      ctx.body = util.success(1);
+      ctx.body = util.success(data=1);
+      log4js.info("ctx.body=>",JSON.stringify(ctx.body) )
 
 });
 
