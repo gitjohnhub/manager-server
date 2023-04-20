@@ -14,7 +14,7 @@ const leaveOfAbsenceSchema = mongoose.Schema({
   "leaveType":String,
   "halfDay":String,
   "createTime":{
-    type:Date,
+    type:String,
   },
   "userName":String,
   "approve":{
