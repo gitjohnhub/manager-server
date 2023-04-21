@@ -11,7 +11,7 @@ const users = require('./routes/users');
 const lostFound = require('./routes/lostFound');
 const leaveOfAbsence = require('./routes/leaveOfAbsence');
 const receiveCertificate = require('./routes/receiveCertificate')
-
+const helpDeskContact = require('./routes/helpDeskContact')
 
 const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
@@ -70,6 +70,7 @@ router.use(lostFound.routes(), users.allowedMethods());
 router.use(leaveOfAbsence.routes(), users.allowedMethods());
 router.use(generalWindowContact.routes(), users.allowedMethods());
 router.use(receiveCertificate.routes(), users.allowedMethods());
+router.use(helpDeskContact.routes(), users.allowedMethods());
 
 app.use(router.routes(), users.allowedMethods());
 // error-handling
