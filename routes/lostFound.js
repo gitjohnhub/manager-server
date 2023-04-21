@@ -11,7 +11,7 @@ router.get('/all',async (ctx)=>{
   log4js.info('get lostFound success')
   try {
     const res = await lostFound.find()
-    ctx.body = util.success(data = res)
+    ctx.body = util.success(data = res.reverse(),msg='返回成功')
   }catch(err){
     log4js.info(err)
   }

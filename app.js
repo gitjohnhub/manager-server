@@ -10,12 +10,14 @@ const log4js = require('./utils/log4j');
 const users = require('./routes/users');
 const lostFound = require('./routes/lostFound');
 const leaveOfAbsence = require('./routes/leaveOfAbsence');
+const receiveCertificate = require('./routes/receiveCertificate')
 
 
 const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
 const koa_jwt = require('koa-jwt');
 const util = require('./utils/util');
+const generalWindowContact = require('./routes/generalWindowContact');
 // error handler
 onerror(app);
 
@@ -66,6 +68,9 @@ router.prefix('/api');
 router.use(users.routes(), users.allowedMethods());
 router.use(lostFound.routes(), users.allowedMethods());
 router.use(leaveOfAbsence.routes(), users.allowedMethods());
+router.use(generalWindowContact.routes(), users.allowedMethods());
+router.use(receiveCertificate.routes(), users.allowedMethods());
+
 app.use(router.routes(), users.allowedMethods());
 // error-handling
 

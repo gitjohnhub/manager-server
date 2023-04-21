@@ -24,11 +24,11 @@ const userSchema = mongoose.Schema({
   "roleList":[],
   "createTime":{
     type:Date,
-    default:Date.now()
+    default:Date.now()+ 8 * 60 * 60 * 1000
   },
   "lastLoginTime":{
     type:Date,
-    default:Date.now()
+    default:Date.now() + 8 * 60 * 60 * 1000
   },
   remark:String
 })

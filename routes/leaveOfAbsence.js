@@ -2,8 +2,6 @@ const router = require('koa-router')();
 const leaveOfAbsence = require('../models/leaveOfAbsenceSchema');
 const util = require('../utils/util');
 const log4js = require('../utils/log4j');
-const jwt = require('jsonwebtoken');
-const md5 = require('md5');
 
 router.prefix('/leaveOfAbsence');
 router.get('/count', async (ctx) => {
@@ -20,14 +18,22 @@ router.get('/count', async (ctx) => {
   ctx.body = util.success((data = 1));
   log4js.info('ctx.body=>', JSON.stringify(ctx.body));
 });
+
+//通过userName获取请假数据，如果为admin请求所有数据
 router.post('/all', async (ctx) => {
   log4js.info('get leave success');
   try {
     const { userName } = ctx.request.body;
-    const res = await leaveOfAbsence.find({
-      userName,
-    });
-    ctx.body = util.success((data = res));
+    if (userName !== 'admin'){
+      const res = await leaveOfAbsence.find({
+        userName,
+      });
+      ctx.body = util.success((data = res.reverse()));
+    }else{
+      const res = await leaveOfAbsence.find();
+      ctx.body = util.success((data = res.reverse()));
+    }
+
   } catch (err) {
     log4js.info(err);
   }
@@ -50,5 +56,22 @@ router.post('/add', async (ctx) => {
     log4js.info(err);
   }
 });
+router.post('/approve', async (ctx) => {
+  log4js.info('approve leave success');
+  try {
+    log4js.info(ctx.request.body);
+    const {_id,confirmer,approveId} = ctx.request.body
+    const item = await leaveOfAbsence.findOneAndUpdate({_id:_id},{approveby:confirmer}).findOneAndUpdate({_id:_id},{approve:approveId});
+    await item.save().then(res=>{
+      console.log(item.approveby);
+    }).catch(err=>{
+      log4js.info(err)
+    })
+    ctx.body = util.success(data = item.approveby)
+  } catch (err) {
+    log4js.info(err);
+  }
+});
+
 
 module.exports = router;

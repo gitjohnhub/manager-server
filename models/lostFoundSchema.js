@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const lostFoundSchema = mongoose.Schema({
   "pickUpDate":{
     type:Date,
-    // default:Date.now()
+    default:Date.now() + 8 * 60 * 60 * 1000
   },
   "itemType":String,
   "withName":String,
@@ -19,6 +19,7 @@ const lostFoundSchema = mongoose.Schema({
   "note":String,
   "createTime":{
     type:Date,
+    default:Date.now() + 8 * 60 * 60 * 1000
   },
   "recorder":String,
   "confirmer":String

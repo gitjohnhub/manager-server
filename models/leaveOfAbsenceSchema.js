@@ -7,19 +7,25 @@ const mongoose = require('mongoose')
 const leaveOfAbsenceSchema = mongoose.Schema({
   "leaveDate":{
     type:Array,
-    // default:Date.now()
+    // default:Date.now() + 8 * 60 * 60 * 1000
   },
   "note":String,
   "dayType":String,
   "leaveType":String,
   "halfDay":String,
   "createTime":{
-    type:String,
+    type:Date,
+    // default:Date.now() + 8 * 60 * 60 * 1000
+
   },
   "userName":String,
   "approve":{
     type:Number,
     default:0
+  },
+  "approveby":{
+    type:String,
+    default:''
   }
 })
 
