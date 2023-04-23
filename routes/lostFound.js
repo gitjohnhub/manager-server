@@ -48,4 +48,21 @@ router.post('/confirmLostFound',async (ctx)=>{
     log4js.info(err)
   }
 })
+// 统计
+router.get('/statistics',async (ctx)=>{
+  log4js.info('get lostFound statistics success')
+  try {
+    let data = await lostFound.aggregate([
+      {
+        $group: {
+          _id: '$itemType',        // 分组依据
+          count: { $sum: 1 }      // 统计数量
+        }
+      }
+    ])
+    ctx.body = util.success(data = data,msg='返回成功')
+  }catch(err){
+    log4js.info(err)
+  }
+})
 module.exports = router

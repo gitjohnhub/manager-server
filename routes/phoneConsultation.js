@@ -30,4 +30,21 @@ router.post('/add', async (ctx) => {
   }
 });
 
+// 统计
+router.get('/stat_by_dept',async (ctx)=>{
+  log4js.info('get  phoneConsultation statistics success')
+  try {
+    let data = await phoneConsultation.aggregate([
+      {
+        $group: {
+          _id: '$dept',        // 分组依据
+          count: { $sum: 1 }      // 统计数量
+        }
+      }
+    ])
+    ctx.body = util.success(data = data,msg='返回成功')
+  }catch(err){
+    log4js.info(err)
+  }
+})
 module.exports = router;
