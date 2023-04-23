@@ -8,7 +8,7 @@ const phoneConsultationSchema = mongoose.Schema({
   dept: String,
   item: Array,
   result: String,
-  createTime: String,
+  createTime: Date,
   note: String,
   userName: String
 })

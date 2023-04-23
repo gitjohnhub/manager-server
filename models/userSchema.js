@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
   "userId":Number,
   "userName":String,
   "userPwd":String,
-  "userEmail":String,
+  "userAccount":String,
   "mobile":String,
   "sex":Number,
   "deptId":[],
@@ -29,8 +29,7 @@ const userSchema = mongoose.Schema({
   "lastLoginTime":{
     type:Date,
     default:Date.now() + 8 * 60 * 60 * 1000
-  },
-  remark:String
+  }
 })
 
 module.exports = mongoose.model("users",userSchema,"users")
