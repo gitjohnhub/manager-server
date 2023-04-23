@@ -6,12 +6,27 @@ const log4js = require('../utils/log4j');
 router.prefix('/phoneConsultation');
 
 router.get('/all', async (ctx) => {
+  // const {userId,userName,state}  = ctx.request.query
   log4js.info('get phoneConsultation success');
+  const {page,skipIndex} = util.pager(ctx.request.query)
+  let params = {}
+  // if (userId) params.userId = userId;
+  // if(userName) params.userName = userName;
+  // if(state && state != 0) params.state = state;
   try {
-    const res = await phoneConsultation.find();
-    ctx.body = util.success((data = res.reverse()));
+    const query = phoneConsultation.find(params,{userPwd:0}).sort({ createTime: -1 });
+    const list = await query.skip(skipIndex).limit(page.pageSize)
+    const total = await phoneConsultation.countDocuments(params)
+    log4js.info(query)
+    ctx.body = util.success({
+      page:{
+        ...page,
+        total
+      },
+      list
+    });
   } catch (err) {
-    log4js.info(err);
+    ctx.body = util.fail(`查询异常${err}`)
   }
 });
 router.post('/add', async (ctx) => {

@@ -37,6 +37,7 @@ module.exports = {
     }
   },
   fail(msg='',code=CODE.USER_ACCOUNT_ERROR,data=""){
+    log4js.debug(msg)
     return {
       code,data,msg
     }

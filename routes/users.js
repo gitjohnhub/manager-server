@@ -135,4 +135,22 @@ router.post('/markEntry', async (ctx) => {
   }
 });
 
+//统计在职离职
+router.get('/user_stat_by_state',async (ctx)=>{
+  log4js.info('get  user statistics success')
+  try {
+    let data = await User.aggregate([
+      {
+        $group: {
+          _id: '$state',        // 分组依据
+          count: { $sum: 1 }      // 统计数量
+        }
+      }
+    ])
+    ctx.body = util.success(data = data,msg='返回成功')
+  }catch(err){
+    log4js.info(err)
+  }
+})
+
 module.exports = router;
