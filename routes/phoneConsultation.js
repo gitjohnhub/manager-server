@@ -62,4 +62,44 @@ router.get('/stat_by_dept',async (ctx)=>{
     log4js.info(err)
   }
 })
+//当月的按照userName分类的数据
+router.get('/phone_stat_byuser_curmonth',async (ctx)=>{
+  const {startDate,endDate}= ctx.request.query
+  if(startDate){
+    console.log('startDate=>',new Date(startDate))
+    try {
+      let data = await phoneConsultation.aggregate([
+        { $match: { createTime: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate)
+        } } },
+        {
+          $group: {
+            _id: '$userName',   // 按用户名分组
+            count: { $sum: 1 }  // 统计分组数量
+          }
+        }
+      ])
+      ctx.body = util.success(data = data,msg='返回成功')
+    }catch(err){
+      log4js.info(err)
+    }
+  }else{
+    try {
+      let data = await phoneConsultation.aggregate([
+        {
+          $group: {
+            _id: '$userName',        // 分组依据
+            count: { $sum: 1 }      // 统计数量
+          }
+        }
+      ])
+      ctx.body = util.success(data = data,msg='返回成功')
+    }catch(err){
+      log4js.info(err)
+    }
+
+  }
+
+})
 module.exports = router;

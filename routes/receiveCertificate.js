@@ -48,7 +48,7 @@ router.post('/update',async (ctx)=>{
   const {_id,confirmer} = ctx.request.body
   try {
     log4js.info(ctx.request.body)
-    const item = await receiveCertificate.findOneAndUpdate({_id:_id},{confirmer:confirmer}).findOneAndUpdate({_id:_id},{hasDraw:1});
+    const item = await receiveCertificate.findOneAndUpdate({_id:_id},{confirmer:confirmer}).findOneAndUpdate({_id:_id},{hasDraw:1}).findOneAndUpdate({_id:_id},{drawDate:new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString()});
     await item.save().then(res=>{
       console.log(item.confirmer);
     }).catch(err=>{
