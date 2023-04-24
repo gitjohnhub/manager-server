@@ -8,16 +8,29 @@ const util = require('./../utils/util')
 
 router.prefix('/receiveCertificate')
 router.get('/all',async (ctx)=>{
-  log4js.info('get receiveCertificate success')
+  const {page,skipIndex} = util.pager(ctx.request.query)
+  let params = {}
+  // if (userId) params.userId = userId;
+  // if(userName) params.userName = userName;
+  // if(state && state != 0) params.state = state;
   try {
-    const res = await receiveCertificate.find()
-    ctx.body = util.success(data = res.reverse(),msg='返回成功')
+    const query = receiveCertificate.find(params).sort({ createTime: -1 });
+    const list = await query.skip(skipIndex).limit(page.pageSize)
+    const total = await receiveCertificate.countDocuments(params)
+    ctx.body = util.success({
+      page:{
+        ...page,
+        total
+      },
+      list
+    });
   }catch(err){
     log4js.info(err)
   }
 })
 router.post('/add',async (ctx)=>{
   log4js.info('add receiveCertificate success')
+
   try {
     log4js.info(ctx.request.body)
     const item = await new receiveCertificate(ctx.request.body);

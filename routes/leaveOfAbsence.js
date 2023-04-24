@@ -19,21 +19,22 @@ router.get('/count', async (ctx) => {
   log4js.info('ctx.body=>', JSON.stringify(ctx.body));
 });
 
-//通过userName获取请假数据，如果为admin请求所有数据
 router.post('/all', async (ctx) => {
   log4js.info('get leave success');
   try {
-    const { userName } = ctx.request.body;
-    if (userName !== 'admin'){
-      const res = await leaveOfAbsence.find({
-        userName,
-      });
-      ctx.body = util.success((data = res.reverse()));
-    }else{
-      const res = await leaveOfAbsence.find();
-      ctx.body = util.success((data = res.reverse()));
-    }
-
+    const {page,skipIndex} = util.pager(ctx.request.query)
+    let params = {}
+    const query = leaveOfAbsence.find(params).sort({ createTime: -1 });
+    const list = await query.skip(skipIndex).limit(page.pageSize)
+    const total = await leaveOfAbsence.countDocuments(params)
+    log4js.info(query)
+    ctx.body = util.success({
+      page:{
+        ...page,
+        total
+      },
+      list
+    });
   } catch (err) {
     log4js.info(err);
   }
