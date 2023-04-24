@@ -19,15 +19,18 @@ router.get('/count', async (ctx) => {
   log4js.info('ctx.body=>', JSON.stringify(ctx.body));
 });
 
-router.post('/all', async (ctx) => {
+router.get('/all', async (ctx) => {
   log4js.info('get leave success');
   try {
+    const {userName} = ctx.request.query
+    console.log('userName=>',userName)
     const {page,skipIndex} = util.pager(ctx.request.query)
+    log4js.info('page=>',ctx.request)
     let params = {}
+    if(userName) params.userName = userName;
     const query = leaveOfAbsence.find(params).sort({ createTime: -1 });
     const list = await query.skip(skipIndex).limit(page.pageSize)
     const total = await leaveOfAbsence.countDocuments(params)
-    log4js.info(query)
     ctx.body = util.success({
       page:{
         ...page,
@@ -52,7 +55,7 @@ router.post('/add', async (ctx) => {
       .catch((err) => {
         log4js.info(err);
       });
-    ctx.body = util.success((data = item.leaveDate[0]));
+    ctx.body = util.success(msg='提交成功');
   } catch (err) {
     log4js.info(err);
   }

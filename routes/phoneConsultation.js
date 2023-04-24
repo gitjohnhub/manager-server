@@ -39,7 +39,7 @@ router.post('/add', async (ctx) => {
       .catch((err) => {
         log4js.info(err);
       });
-    ctx.body = util.success();
+    ctx.body = util.success(msg='提交成功');
   } catch (err) {
     log4js.info(err);
   }
