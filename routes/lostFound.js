@@ -9,9 +9,23 @@ const util = require('./../utils/util')
 router.prefix('/lostFound')
 router.get('/all',async (ctx)=>{
   log4js.info('get lostFound success')
+  const {page,skipIndex} = util.pager(ctx.request.query)
+  let params = {}
+  // if (userId) params.userId = userId;
+  // if(userName) params.userName = userName;
+  // if(state && state != 0) params.state = state;
   try {
-    const res = await lostFound.find()
-    ctx.body = util.success(data = res.reverse(),msg='返回成功')
+    const query = lostFound.find(params).sort({ createTime: -1 });
+    const list = await query.skip(skipIndex).limit(page.pageSize)
+    const total = await lostFound.countDocuments(params)
+    log4js.info(query)
+    ctx.body = util.success({
+      page:{
+        ...page,
+        total
+      },
+      list
+    });
   }catch(err){
     log4js.info(err)
   }
