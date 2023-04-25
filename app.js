@@ -35,6 +35,7 @@ app.use(json());
 
 app.use(async (ctx, next) => {
   await next().catch((err) => {
+    console.log(err)
     if (err.status == '401') {
       ctx.status = 200;
       ctx.body = util.fail('Token认证失败,请重新登录', util.CODE.AUTH_ERROR);

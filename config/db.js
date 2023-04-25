@@ -8,7 +8,7 @@ const log4js = require('../utils/log4j')
 
 
 mongoose.connect(config.URL);
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+// mongoose.connect('mongodb://zwzx:qwe123@127.0.0.1:27017/manager');
 const db = mongoose.connection;
 
 db.on('error',()=>{

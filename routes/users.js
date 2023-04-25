@@ -12,12 +12,15 @@ router.prefix('/users');
 router.post('/login', async (ctx) => {
   try {
     const { userAccount, userPwd } = ctx.request.body;
+    console.log('userAccount=>',userAccount)
+
     const md5_userPwd = md5(userPwd);
     const res = await User.findOne({
       userAccount,
       userPwd: md5_userPwd,
     });
     if (res) {
+      console.log('res=>',res)
       const data = res._doc;
       const token = jwt.sign({ data: data }, 'zwzx', { expiresIn: 60 * 60 });
       data.token = token;
