@@ -13,7 +13,7 @@ const leaveOfAbsence = require('./routes/leaveOfAbsence');
 const receiveCertificate = require('./routes/receiveCertificate')
 const helpDeskContact = require('./routes/helpDeskContact')
 const phoneConsultation = require('./routes/phoneConsultation');
-
+const onlineHelp = require('./routes/onlineHelp');
 const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
 const koa_jwt = require('koa-jwt');
@@ -73,6 +73,7 @@ router.use(generalWindowContact.routes(), users.allowedMethods());
 router.use(receiveCertificate.routes(), users.allowedMethods());
 router.use(helpDeskContact.routes(), users.allowedMethods());
 router.use(phoneConsultation.routes(), users.allowedMethods());
+router.use(onlineHelp.routes(), users.allowedMethods());
 
 app.use(router.routes(), users.allowedMethods());
 // error-handling
