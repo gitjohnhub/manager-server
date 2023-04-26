@@ -8,7 +8,7 @@ const util = require('./../utils/util')
 
 router.prefix('/lostFound')
 router.get('/all',async (ctx)=>{
-  log4js.info('get lostFound success')
+  log4js.debug('get lostFound success')
   const {page,skipIndex} = util.pager(ctx.request.query)
 
   let params = {}

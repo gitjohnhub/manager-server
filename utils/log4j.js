@@ -17,12 +17,12 @@ const levels = {
 log4js.configure({
   appenders:{
     console:{type:'console'},
-    info: { type: "file", filename: "logs/all-the-logs.log" },
+    debug: { type: "dateFile", filename: "logs/info",pattern:"yyyy-MM-dd.log",alwaysIncludePattern:true},
     error: { type: "dateFile", filename: "logs/log",pattern:"yyyy-MM-dd.log",alwaysIncludePattern:true},
   },
   categories: {
-    default: { appenders: ["console"], level: "debug" },
-    info: { appenders: ["console","info"], level: "info" },
+    default: { appenders: ["console",'debug'], level: "debug" },
+    info: { appenders: ["console"], level: "info" },
     error: { appenders: ["console","error"], level: "error" },
   },
 })

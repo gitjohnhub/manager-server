@@ -17,7 +17,6 @@ router.get('/all', async (ctx) => {
     const query = phoneConsultation.find(params).sort({ createTime: -1 });
     const list = await query.skip(skipIndex).limit(page.pageSize)
     const total = await phoneConsultation.countDocuments(params)
-    log4js.info(query)
     ctx.body = util.success({
       page:{
         ...page,
@@ -32,7 +31,9 @@ router.get('/all', async (ctx) => {
 router.post('/add', async (ctx) => {
   log4js.info('add phoneConsultation success');
   try {
-    log4js.info(ctx.request.body);
+    const {userName} = ctx.request.body
+    log4js.debug(userName);
+
     const item = await new phoneConsultation(ctx.request.body);
     await item
       .save()
