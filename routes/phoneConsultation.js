@@ -45,6 +45,25 @@ router.post('/add', async (ctx) => {
     log4js.info(err);
   }
 });
+router.post('/update', async (ctx) => {
+  try {
+    // log4js.info(ctx.request.body);
+    const {_id,dept,item,result,note} = ctx.request.body
+    const user = await phoneConsultation.findById(_id)
+    log4js.info(user)
+    user.dept = dept
+    user.item = item
+    user.result = result
+    user.note = note
+    await user.save()
+      .catch((err) => {
+        log4js.info(err);
+      });
+    ctx.body = util.success((data = user.userName));
+  } catch (err) {
+    log4js.info(err);
+  }
+})
 
 // 统计
 router.get('/stat_by_dept',async (ctx)=>{
