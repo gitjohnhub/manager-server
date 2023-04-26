@@ -12,8 +12,6 @@ router.prefix('/users');
 router.post('/login', async (ctx) => {
   try {
     const { userAccount, userPwd } = ctx.request.body;
-    console.log('userAccount=>',userAccount)
-
     const md5_userPwd = md5(userPwd);
     const res = await User.findOne({
       userAccount,
@@ -45,7 +43,7 @@ router.get('/all', async (ctx) => {
 router.post('/register', async (ctx) => {
   log4js.info('post register success');
   try {
-    const { userAccount, userPwd } = ctx.request.body;
+    const { userAccount, userPwd,userName} = ctx.request.body;
     const md5_userPwd = md5(userPwd);
     const res = await User.findOne({
       userAccount,
@@ -54,7 +52,7 @@ router.post('/register', async (ctx) => {
     if (res) {
       ctx.body = util.fail('账号已被注册，请重新注册');
     } else {
-      const item = await new User({ userAccount: userAccount, userPwd: md5_userPwd });
+      const item = await new User({ userAccount: userAccount, userPwd: md5_userPwd ,userName:userName});
       await item
         .save()
         .then((res) => {
