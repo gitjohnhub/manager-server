@@ -62,20 +62,68 @@ router.post('/update',async (ctx)=>{
 })
 
 // 统计
-router.get('/stat_by_dept',async (ctx)=>{
-  log4js.info('get  goodbadReview statistics success')
-  try {
-    let data = await goodbadReview.aggregate([
-      {
-        $group: {
-          _id: '$dept',        // 分组依据
-          count: { $sum: 1 }      // 统计数量
-        }
+router.get('/stat_by_month',async (ctx)=>{
+  log4js.info('get stat_by_month success')
+
+  const pipeline = [
+    // 将createTime字段转换为月份格式
+    {
+      $addFields: {
+        month: { $dateToString: { format: "%Y-%m", date: "$createTime" } }
       }
-    ])
-    ctx.body = util.success(data = data,msg='返回成功')
-  }catch(err){
-    log4js.info(err)
+    },
+    // 按月份对文档进行分组并计算每个月的文档数量
+    {
+      $group: {
+        _id: "$month",
+        count: { $sum: 1 }
+      }
+    }
+  ];
+  try {
+    let data = await goodbadReview.aggregate(pipeline)
+      ctx.body = util.success(data = data,msg='返回成功')
+    }catch(error){
+      log4js.info("error")
+    }
+  });
+router.get('/stat_by_itemType',async (ctx)=>{
+  log4js.info('get  goodbadReview statistics success')
+  const {startDate,endDate}= ctx.request.query
+  if(startDate){
+    console.log('startDate=>',new Date(startDate))
+    try {
+      let data = await goodbadReview.aggregate([
+        { $match: { createTime: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate)
+        } } },
+        {
+          $group: {
+            _id: '$itemType',   // 按照部门
+            count: { $sum: 1 }  // 统计分组数量
+          }
+        }
+      ])
+      ctx.body = util.success(data = data,msg='返回成功')
+    }catch(err){
+      log4js.info(err)
+    }
+  }else{
+    try {
+      let data = await goodbadReview.aggregate([
+        {
+          $group: {
+            _id: '$itemType',        // 分组依据
+            count: { $sum: 1 }      // 统计数量
+          }
+        }
+      ])
+      ctx.body = util.success(data = data,msg='返回成功')
+    }catch(err){
+      log4js.info(err)
+    }
+
   }
 })
 //当月的按照userName分类的数据
