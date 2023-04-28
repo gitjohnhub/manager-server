@@ -16,7 +16,7 @@ const goodbadReviewSchema = mongoose.Schema({
   },
   replyContent:String,
   itemType:String,
-  createTime: String,
+  createTime: Date,
   recorder:String
 })
 

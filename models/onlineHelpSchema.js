@@ -10,7 +10,7 @@ const onlineHelpSchema = mongoose.Schema({
   result: String,
   dept:String,
   itemType:String,
-  createTime: String,
+  createTime: Date,
   recorder:String
 })
 
