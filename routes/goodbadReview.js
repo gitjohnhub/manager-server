@@ -78,7 +78,13 @@ router.get('/stat_by_month',async (ctx)=>{
         _id: "$month",
         count: { $sum: 1 }
       }
+    },
+      // 按_id字段升序排序结果
+  {
+    $sort: {
+      _id: 1
     }
+  }
   ];
   try {
     let data = await goodbadReview.aggregate(pipeline)
