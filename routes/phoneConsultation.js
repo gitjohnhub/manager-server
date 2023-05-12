@@ -6,12 +6,19 @@ const log4js = require('../utils/log4j');
 router.prefix('/phoneConsultation');
 
 router.get('/all', async (ctx) => {
-  // const {userId,userName,state}  = ctx.request.query
+  const {dept,startDate,endDate}  = ctx.request.query
+  console.log(ctx.request.query)
   log4js.info('get phoneConsultation success');
   const {page,skipIndex} = util.pager(ctx.request.query)
   let params = {}
   // if (userId) params.userId = userId;
-  // if(userName) params.userName = userName;
+  if(dept) params.dept = dept;
+  console.log("searchDate=>",startDate)
+  if(startDate) params.createTime = {
+    $gte: startDate,
+    $lte: endDate
+  }
+  console.log('dept=>',dept)
   // if(state && state != 0) params.state = state;
   try {
     const query = phoneConsultation.find(params).sort({ createTime: -1 });
