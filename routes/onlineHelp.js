@@ -6,11 +6,11 @@ const log4js = require('../utils/log4j');
 router.prefix('/onlineHelp');
 
 router.get('/all', async (ctx) => {
-  // const {userId,userName,state}  = ctx.request.query
+  const {dept}  = ctx.request.query
   log4js.info('get onlineHelp success');
   const {page,skipIndex} = util.pager(ctx.request.query)
   let params = {}
-  // if (userId) params.userId = userId;
+  if (dept) params.dept = dept;
   // if(userName) params.userName = userName;
   // if(state && state != 0) params.state = state;
   try {
