@@ -6,11 +6,11 @@ const log4js = require('../utils/log4j');
 router.prefix('/goodbadReview');
 
 router.get('/all', async (ctx) => {
-  // const {userId,userName,state}  = ctx.request.query
-  log4js.info('get goodbadReview success');
+  const {itemType}  = ctx.request.query
+  log4js.info('itemType');
   const {page,skipIndex} = util.pager(ctx.request.query)
   let params = {}
-  // if (userId) params.userId = userId;
+  if (itemType) params.itemType = itemType;
   // if(userName) params.userName = userName;
   // if(state && state != 0) params.state = state;
   try {
