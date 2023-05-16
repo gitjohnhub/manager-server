@@ -9,14 +9,18 @@ const util = require('./../utils/util')
 router.prefix('/lostFound')
 router.get('/all',async (ctx)=>{
   log4js.debug('get lostFound success')
+  const {withName} = ctx.request.query
+  console.log("body=>",ctx.request.query)
   const {page,skipIndex} = util.pager(ctx.request.query)
 
   let params = {}
-  // if (userId) params.userId = userId;
+  if (withName) params.withName = withName;
   // if(userName) params.userName = userName;
   // if(state && state != 0) params.state = state;
   try {
+    console.log("params=>",params)
     const query = lostFound.find(params).sort({ createTime: -1 });
+    // console.log("query=>",query)
     const list = await query.skip(skipIndex).limit(page.pageSize)
     const total = await lostFound.countDocuments(params)
     ctx.body = util.success({
