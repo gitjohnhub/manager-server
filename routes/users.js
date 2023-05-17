@@ -40,6 +40,15 @@ router.get('/all', async (ctx) => {
     log4js.info(err);
   }
 });
+router.get('/allUserName', async (ctx) => {
+  log4js.info('get users success');
+  try {
+    const res = await User.find({}, { userName: 1 });
+    ctx.body = util.success((data = res.reverse()));
+  } catch (err) {
+    log4js.info(err);
+  }
+});
 router.post('/register', async (ctx) => {
   log4js.info('post register success');
   try {

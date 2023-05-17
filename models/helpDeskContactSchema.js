@@ -1,5 +1,5 @@
 /**
- * 遗失物品sql
+ * 服务台电话咨询
  */
 
 const mongoose = require('mongoose')

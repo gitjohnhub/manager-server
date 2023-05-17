@@ -21,6 +21,7 @@ const generalWindowContact = require('./routes/generalWindowContact');
 const goodbadReview = require('./routes/goodbadReview');
 const onlineHelp = require('./routes/onlineHelp');
 const cannotSolve = require('./routes/cannotSolve');
+const systemControl = require('./routes/systemControl');
 // error handler
 onerror(app);
 
@@ -79,6 +80,7 @@ router.use(phoneConsultation.routes(), users.allowedMethods());
 router.use(onlineHelp.routes(), users.allowedMethods());
 router.use(goodbadReview.routes(), users.allowedMethods());
 router.use(cannotSolve.routes(), users.allowedMethods());
+router.use(systemControl.routes(), users.allowedMethods());
 
 app.use(router.routes(), users.allowedMethods());
 // error-handling
