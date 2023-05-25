@@ -23,6 +23,7 @@ const onlineHelp = require('./routes/onlineHelp');
 const cannotSolve = require('./routes/cannotSolve');
 const systemControl = require('./routes/systemControl');
 const finance = require('./routes/finance');
+const emsDrawCert = require('./routes/emsDrawCert');
 // error handler
 onerror(app);
 
@@ -83,6 +84,7 @@ router.use(goodbadReview.routes(), users.allowedMethods());
 router.use(cannotSolve.routes(), users.allowedMethods());
 router.use(systemControl.routes(), users.allowedMethods());
 router.use(finance.routes(), users.allowedMethods());
+router.use(emsDrawCert.routes(), users.allowedMethods());
 
 app.use(router.routes(), users.allowedMethods());
 // error-handling
