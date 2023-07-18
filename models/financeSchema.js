@@ -5,7 +5,7 @@
 const mongoose = require('mongoose')
 
 const financeSchema = mongoose.Schema({
-  buydate: String,
+  buydate: Date,
   item: String,
   category: String,
   price: String,
