@@ -7,7 +7,6 @@ router.prefix('/phoneConsultation');
 
 router.get('/all', async (ctx) => {
   const {dept,item,startDate,endDate}  = ctx.request.query
-  console.log(ctx.request.query)
   log4js.info('get phoneConsultation success');
   const {page,skipIndex} = util.pager(ctx.request.query)
   let params = {}
