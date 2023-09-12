@@ -5,11 +5,18 @@
 const mongoose = require('mongoose')
 
 const financeSchema = mongoose.Schema({
-  buydate: Date,
+  buydate: String,
   item: String,
   category: String,
   price: String,
-  method:String
+  method:String,
+  subCategory:String,
+  comingType:String,
+  currency:String,
+  ledger:String,
+  tag:String,
+  status:String,
+  commission:String
 
 })
 

@@ -47,13 +47,14 @@ router.post('/add', async (ctx) => {
 router.post('/update', async (ctx) => {
   try {
     // log4js.info(ctx.request.body);
-    const {_id,item,category,method,price} = ctx.request.body
+    const {_id,item,category,method,price,subCategory} = ctx.request.body
     const user = await finance.findById(_id)
     log4js.info(user)
     user.category = category
     user.item = item
     user.method = method
     user.price = price
+    user.subCategory = subCategory
     await user.save()
       .catch((err) => {
         log4js.info(err);
