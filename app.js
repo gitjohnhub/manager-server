@@ -23,6 +23,7 @@ const onlineHelp = require('./routes/onlineHelp');
 const cannotSolve = require('./routes/cannotSolve');
 const systemControl = require('./routes/systemControl');
 const finance = require('./routes/finance');
+const account = require('./routes/account');
 const emsDrawCert = require('./routes/emsDrawCert');
 // error handler
 onerror(app);
@@ -73,20 +74,21 @@ app.use(async (ctx, next) => {
 });
 router.prefix('/api');
 router.use(users.routes(), users.allowedMethods());
-router.use(lostFound.routes(), users.allowedMethods());
-router.use(leaveOfAbsence.routes(), users.allowedMethods());
-router.use(generalWindowContact.routes(), users.allowedMethods());
-router.use(receiveCertificate.routes(), users.allowedMethods());
-router.use(helpDeskContact.routes(), users.allowedMethods());
-router.use(phoneConsultation.routes(), users.allowedMethods());
-router.use(onlineHelp.routes(), users.allowedMethods());
-router.use(goodbadReview.routes(), users.allowedMethods());
-router.use(cannotSolve.routes(), users.allowedMethods());
-router.use(systemControl.routes(), users.allowedMethods());
-router.use(finance.routes(), users.allowedMethods());
-router.use(emsDrawCert.routes(), users.allowedMethods());
+router.use(lostFound.routes(), lostFound.allowedMethods());
+router.use(leaveOfAbsence.routes(), leaveOfAbsence.allowedMethods());
+router.use(generalWindowContact.routes(), generalWindowContact.allowedMethods());
+router.use(receiveCertificate.routes(), receiveCertificate.allowedMethods());
+router.use(helpDeskContact.routes(), helpDeskContact.allowedMethods());
+router.use(phoneConsultation.routes(), phoneConsultation.allowedMethods());
+router.use(onlineHelp.routes(), onlineHelp.allowedMethods());
+router.use(goodbadReview.routes(), goodbadReview.allowedMethods());
+router.use(cannotSolve.routes(), cannotSolve.allowedMethods());
+router.use(systemControl.routes(), systemControl.allowedMethods());
+router.use(finance.routes(), finance.allowedMethods());
+router.use(emsDrawCert.routes(), emsDrawCert.allowedMethods());
+router.use(account.routes(), account.allowedMethods());
 
-app.use(router.routes(), users.allowedMethods());
+app.use(router.routes(), router.allowedMethods());
 // error-handling
 
 app.on('error', (err, ctx) => {
