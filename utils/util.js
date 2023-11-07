@@ -16,16 +16,17 @@ const CODE = {
 module.exports = {
   /**
    * 分页结构封装
-   * @param {number} pageNum
+   * @param {number} current
    * @param {number} pageSize
    */
-  pager({pageNum=1,pageSize=10}){
-    pageNum*=1;
+  pager({current=1,pageSize=10}){
+    current*=1;
     pageSize*=1;
-    const skipIndex = (pageNum-1)*pageSize;
+    const skipIndex = (current-1)*pageSize;
+    console.log('skipindex--->',skipIndex)
     return {
       page:{
-        pageNum,
+        current,
         pageSize
       },
       skipIndex

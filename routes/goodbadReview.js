@@ -7,16 +7,17 @@ router.prefix('/goodbadReview');
 
 router.get('/all', async (ctx) => {
   const {itemType}  = ctx.request.query
-  log4js.info('itemType');
   const {page,skipIndex} = util.pager(ctx.request.query)
   let params = {}
   if (itemType) params.itemType = itemType;
+  console.log(ctx.request.query)
   // if(userName) params.userName = userName;
   // if(state && state != 0) params.state = state;
   try {
     const query = goodbadReview.find(params).sort({ createTime: -1 });
-    const list = await query.skip(skipIndex).limit(page.pageSize)
     const total = await goodbadReview.countDocuments(params)
+    console.log('skipIndex===>',skipIndex)
+    const list = await query.skip(skipIndex).limit(page.pageSize)
     ctx.body = util.success({
       page:{
         ...page,
@@ -24,6 +25,7 @@ router.get('/all', async (ctx) => {
       },
       list
     });
+    console.log('total===>',page)
   } catch (err) {
     ctx.body = util.fail(`查询异常${err}`)
   }
