@@ -18,8 +18,7 @@ router.get('/all', async (ctx) => {
     $gte: startDate,
     $lte: endDate
   }
-  console.log('dept=>',dept)
-  console.log('item=>',item)
+  console.log('params===>',params)
   // if(state && state != 0) params.state = state;
   try {
     const query = phoneConsultation.find(params).sort({ createTime: -1 });
