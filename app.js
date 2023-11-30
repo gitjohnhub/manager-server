@@ -25,6 +25,7 @@ const systemControl = require('./routes/systemControl');
 const finance = require('./routes/finance');
 const account = require('./routes/account');
 const emsDrawCert = require('./routes/emsDrawCert');
+const item = require('./routes/itemControl');
 // error handler
 onerror(app);
 
@@ -87,6 +88,7 @@ router.use(systemControl.routes(), systemControl.allowedMethods());
 router.use(finance.routes(), finance.allowedMethods());
 router.use(emsDrawCert.routes(), emsDrawCert.allowedMethods());
 router.use(account.routes(), account.allowedMethods());
+router.use(item.routes(), item.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods());
 // error-handling
