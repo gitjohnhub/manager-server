@@ -8,13 +8,18 @@ const util = require('./../utils/util')
 
 router.prefix('/lostFound')
 router.get('/all',async (ctx)=>{
-  log4js.debug('get lostFound success')
   const {withName} = ctx.request.query
-  console.log("body=>",ctx.request.query)
   const {page,skipIndex} = util.pager(ctx.request.query)
 
   let params = {}
-  if (withName) params.withName = withName;
+  if (withName) {
+    params = {
+      $or: [
+        { withName: withName },
+        { IdNum: withName }
+      ]
+    };
+  }
   // if(userName) params.userName = userName;
   // if(state && state != 0) params.state = state;
   try {

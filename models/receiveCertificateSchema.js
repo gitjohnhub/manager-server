@@ -1,5 +1,6 @@
 /**
- * 遗失物品sql
+ * 十部门综合窗口领取
+ *
  */
 
 const mongoose = require('mongoose')
