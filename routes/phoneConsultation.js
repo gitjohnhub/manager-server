@@ -165,4 +165,38 @@ router.get('/phone_stat_byuser_curmonth',async (ctx)=>{
   }
 
 })
+// 统计
+router.get('/stat_by_month',async (ctx)=>{
+  log4js.info('get phone_stat_by_month success')
+
+  const pipeline = [
+    // 将createTime字段转换为月份格式
+    {
+      $addFields: {
+        month: { $dateToString: { format: "%Y-%m", date: "$createTime" } }
+      }
+    },
+    // 按月份对文档进行分组并计算每个月的文档数量
+    {
+      $group: {
+        _id: "$month",
+        count: { $sum: 1 }
+      }
+    },
+      // 按_id字段升序排序结果
+  {
+    $sort: {
+      _id: 1
+    }
+  }
+  ];
+  let data = await phoneConsultation.aggregate(pipeline)
+  ctx.body = util.success(data = data,msg='返回成功')
+  // try {
+  //   let data = await phoneConsultation.aggregate(pipeline)
+  //     ctx.body = util.success(data = data,msg='返回成功')
+  //   }catch(error){
+  //     log4js.info("error")
+  //   }
+  });
 module.exports = router;
