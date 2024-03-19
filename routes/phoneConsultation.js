@@ -2,6 +2,7 @@ const router = require('koa-router')();
 const phoneConsultation = require('../models/phoneConsultationSchema');
 const util = require('../utils/util');
 const log4js = require('../utils/log4j');
+const tools = require('../utils/tools');
 router.prefix('/phoneConsultation');
 
 router.get('/all', async (ctx) => {
@@ -16,12 +17,17 @@ router.get('/all', async (ctx) => {
   };
   if(result) params.result = {
     $in:JSON.parse(result),
-  };;
-  if(startDate) params.createTime = {
-    $gte: startDate,
-    $lte: endDate
+  };
+  if(startDate) {
+    const searchDate = tools.getFirstAndLastDayOfMonthFromArray([startDate,endDate])
+    params.createTime = {
+      $gte: searchDate[0],
+      $lte: searchDate[1]
+    }
+    console.log('startDate===>',searchDate[0])
+
   }
-  console.log('dept===>',dept)
+
   // if(state && state != 0) params.state = state;
   try {
     const query = phoneConsultation.find(params).sort({ createTime: -1 });
