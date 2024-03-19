@@ -2,28 +2,32 @@ const router = require('koa-router')();
 const phoneConsultation = require('../models/phoneConsultationSchema');
 const util = require('../utils/util');
 const log4js = require('../utils/log4j');
-
 router.prefix('/phoneConsultation');
 
 router.get('/all', async (ctx) => {
-  const {dept,item,startDate,endDate}  = ctx.request.query
-  log4js.info('get phoneConsultation success');
+  const {dept,item,result,startDate,endDate}  = ctx.request.query
   const {page,skipIndex} = util.pager(ctx.request.query)
   let params = {}
-  // if (userId) params.userId = userId;
-  if(dept) params.dept = dept;
-  if(item) params.item = item;
-  // console.log("searchDate=>",startDate)
+  if(dept) params.dept = {
+    $in:JSON.parse(dept),
+  };
+  if(item) params.item = {
+    $in:JSON.parse(item),
+  };
+  if(result) params.result = {
+    $in:JSON.parse(result),
+  };;
   if(startDate) params.createTime = {
     $gte: startDate,
     $lte: endDate
   }
-  console.log('params===>',params)
+  console.log('dept===>',dept)
   // if(state && state != 0) params.state = state;
   try {
     const query = phoneConsultation.find(params).sort({ createTime: -1 });
     const list = await query.skip(skipIndex).limit(page.pageSize)
     const total = await phoneConsultation.countDocuments(params)
+    console.log('total===>',total)
     ctx.body = util.success({
       page:{
         ...page,
